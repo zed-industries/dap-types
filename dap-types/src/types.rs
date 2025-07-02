@@ -3,7 +3,6 @@
 
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use serde_json::Number;
 
 /// On error (whenever `success` is false), the body can provide more details.
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq, Hash)]
@@ -74,10 +73,7 @@ pub struct StoppedEvent {
     #[serde(rename = "hitBreakpointIds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(default)]
-    // Note: this is an Number because delve returns -1 when a panic is hit.
-    // Everywhere else we assume (though the spec doesn't specify) that breakpoint ids are u64s.
-    // https://github.com/go-delve/delve/pull/4027
-    pub hit_breakpoint_ids: Option<Vec<Number>>,
+    pub hit_breakpoint_ids: Option<Vec<i64>>,
 }
 
 /// The reason for the event.
